@@ -26,9 +26,9 @@ android {
 }
 
 // Home page url
-def siteUrl = 'https://github.com/GregoryHo/FancyLogger'
+def siteUrl = 'https://github.com/GregoryHo/EasyViewPager'
 // git repository url
-def gitUrl = 'https://github.com/GregoryHo/FancyLogger.git'
+def gitUrl = 'https://github.com/GregoryHo/EasyViewPager.git'
 // Maven Group ID for the artifact，
 group = "greg.library.easy-viewpager"
 install {
