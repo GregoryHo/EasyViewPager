@@ -5,7 +5,7 @@ apply plugin: 'com.jfrog.bintray'
 def ext = rootProject.extensions.getByName("ext")
 
 // Library version
-version = '1.0.0'
+version = '1.0.1'
 android {
   compileSdkVersion ext["compileSdkVersion"]
   buildToolsVersion ext["buildToolsVersion"]
@@ -30,7 +30,7 @@ def siteUrl = 'https://github.com/GregoryHo/EasyViewPager'
 // git repository url
 def gitUrl = 'https://github.com/GregoryHo/EasyViewPager.git'
 // Maven Group ID for the artifact，
-group = "greg.library.easy-viewpager"
+group = "greg.ns.library"
 install {
   repositories.mavenInstaller {
     // This generates POM.xml with proper parameters
