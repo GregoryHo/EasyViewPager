@@ -2,6 +2,7 @@ package com.ns.greg.library.easy_viewpager.adapter;
 
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
+import android.view.ViewGroup;
 import com.ns.greg.library.easy_viewpager.AdapterHelper;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -21,6 +22,27 @@ public class BasePageAdapter<T extends View> extends PagerAdapter {
 
   public BasePageAdapter(List<T> view) {
     this.list.addAll(view);
+  }
+
+  @Override public int getCount() {
+    synchronized (list) {
+      return list.size();
+    }
+  }
+
+  @Override public boolean isViewFromObject(View view, Object object) {
+    return view.equals(object);
+  }
+
+  @Override public Object instantiateItem(ViewGroup container, int position) {
+    View view = get(position);
+    container.addView(view);
+
+    return view;
+  }
+
+  @Override public void destroyItem(ViewGroup container, int position, Object object) {
+    container.removeView((View) object);
   }
 
   public List<T> getList() {
@@ -82,16 +104,6 @@ public class BasePageAdapter<T extends View> extends PagerAdapter {
     }
 
     return -1;
-  }
-
-  @Override public int getCount() {
-    synchronized (list) {
-      return list.size();
-    }
-  }
-
-  @Override public boolean isViewFromObject(View view, Object object) {
-    return view.equals(object);
   }
 
   /**

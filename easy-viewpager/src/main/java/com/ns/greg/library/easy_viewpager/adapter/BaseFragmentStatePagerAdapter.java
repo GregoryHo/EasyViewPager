@@ -44,7 +44,7 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
   }
 
   public void remove(Fragment fragment) {
-    synchronized (fragment) {
+    synchronized (list) {
       list.remove(fragment);
     }
 
