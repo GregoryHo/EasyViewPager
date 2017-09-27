@@ -43,6 +43,12 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
     notifyDataSetChanged();
   }
 
+  public void set(int index, Fragment fragment) {
+    synchronized (list) {
+      list.set(index, fragment);
+    }
+  }
+
   public void remove(Fragment fragment) {
     synchronized (list) {
       list.remove(fragment);
@@ -95,13 +101,15 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
   }
 
   @Override public Object instantiateItem(ViewGroup container, int position) {
-    Object fragment = super.instantiateItem(container, position);
+    Fragment fragment = (Fragment) super.instantiateItem(container, position);
     if (DEBUG) {
       Log.d(TAG, "instantiateItem, object : "
           + fragment.getClass().getSimpleName()
           + ", position : "
           + position);
     }
+
+    set(position, fragment);
 
     return fragment;
   }

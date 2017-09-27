@@ -17,6 +17,8 @@ import java.util.List;
  */
 public class DemoActivity extends AppCompatActivity {
 
+  private EasyViewPager viewPager;
+
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main_demo);
@@ -28,10 +30,14 @@ public class DemoActivity extends AppCompatActivity {
 
     DemoFragmentAdapter adapter = new DemoFragmentAdapter(getSupportFragmentManager(), fragments);
 
-    EasyViewPager viewPager = (EasyViewPager) findViewById(R.id.viewpager);
+    viewPager = (EasyViewPager) findViewById(R.id.viewpager);
     viewPager.setScrollDurationFactor(1d);
     viewPager.setPageTransformer(false, TransformerFactory.orderScaleTransformer());
     viewPager.setAdapter(adapter);
+  }
+
+  private DemoFragmentAdapter getAdapter() {
+    return (DemoFragmentAdapter) viewPager.getAdapter();
   }
 
   private static class DemoFragmentAdapter extends BaseFragmentStatePagerAdapter {

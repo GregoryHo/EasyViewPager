@@ -31,10 +31,14 @@ public class DemoFragment extends Fragment {
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
 
-    Bundle bundle = getArguments();
-    String title = bundle.getString("title", "");
+    String title = getTitle();
     if (!title.isEmpty()) {
       ((TextView) view.findViewById(R.id.title_tv)).setText(title);
     }
+  }
+
+  private String getTitle() {
+    Bundle bundle = getArguments();
+    return bundle.getString("title", "");
   }
 }
