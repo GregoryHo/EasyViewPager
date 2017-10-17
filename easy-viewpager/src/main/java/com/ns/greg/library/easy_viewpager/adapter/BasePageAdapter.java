@@ -12,7 +12,7 @@ import java.util.List;
  * @author Gregory
  * @since 2017/3/10
  */
-public class BasePageAdapter<T extends View> extends PagerAdapter {
+public abstract class BasePageAdapter<T extends View> extends PagerAdapter {
 
   private final List<T> list = new ArrayList<>();
 
@@ -107,7 +107,7 @@ public class BasePageAdapter<T extends View> extends PagerAdapter {
   }
 
   /**
-   * Check fragment list if contains this object
+   * Check list if contains this object
    */
   protected boolean checkContains(Object object) {
     synchronized (list) {

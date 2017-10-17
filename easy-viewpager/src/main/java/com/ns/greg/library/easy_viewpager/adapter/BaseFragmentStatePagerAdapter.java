@@ -35,6 +35,16 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
     list.addAll(fragments);
   }
 
+  public void updateList(List<Fragment> list) {
+    this.list.clear();
+    this.list.addAll(list);
+    notifyDataSetChanged();
+  }
+
+  public List<Fragment> getList() {
+    return list;
+  }
+
   public void add(Fragment fragment) {
     synchronized (list) {
       list.add(fragment);
