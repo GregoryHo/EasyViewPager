@@ -48,7 +48,7 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
   public boolean contains(Object object) {
     synchronized (list) {
       for (Fragment fragment : list) {
-        if (fragment.getClass().equals(object.getClass())) {
+        if (fragment.equals(object)) {
           return true;
         }
       }
