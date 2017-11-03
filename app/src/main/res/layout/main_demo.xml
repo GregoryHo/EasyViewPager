@@ -5,6 +5,13 @@
     android:orientation="vertical"
     >
 
+  <Button
+      android:id="@+id/remove"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="remove"
+      />
+
   <com.ns.greg.library.easy_viewpager.InfiniteViewPager
       android:id="@+id/viewpager"
       android:layout_width="match_parent"

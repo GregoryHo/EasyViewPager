@@ -1,6 +1,7 @@
 package com.ns.greg.library.easy_viewpager.adapter;
 
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import com.ns.greg.library.easy_viewpager.AdapterHelper;
@@ -13,6 +14,9 @@ import java.util.List;
  * @since 2017/3/10
  */
 public abstract class BasePageAdapter<T extends View> extends PagerAdapter {
+
+  private static final String TAG = "BasePageAdapter";
+  private static final boolean DEBUG = false;
 
   private final List<T> list = new ArrayList<>();
 
@@ -34,14 +38,28 @@ public abstract class BasePageAdapter<T extends View> extends PagerAdapter {
     return view.equals(object);
   }
 
+  @SuppressWarnings("unchecked") @Override public int getItemPosition(Object object) {
+    debug("getItemPosition, object: [" + object.hashCode() + "]");
+    int index = getIndex((T) object);
+    if (index == -1) {
+      return POSITION_NONE;
+    }
+
+    return index;
+  }
+
   @Override public Object instantiateItem(ViewGroup container, int position) {
     View view = get(position);
-    container.addView(view);
+    debug("instantiateItem, position: [" + position + "], object: [" + view.hashCode() + "]");
+    if (view.getParent() == null) {
+      container.addView(view);
+    }
 
     return view;
   }
 
   @Override public void destroyItem(ViewGroup container, int position, Object object) {
+    debug("destroyItem, position: [" + position + "], object: [" + object.hashCode() + "]");
     container.removeView((View) object);
   }
 
@@ -55,8 +73,20 @@ public abstract class BasePageAdapter<T extends View> extends PagerAdapter {
    * @param views list of view
    */
   public void updateList(List<T> views) {
-    clear();
-    addAll(views);
+    synchronized (list) {
+      list.clear();
+      list.addAll(views);
+    }
+
+    notifyDataSetChanged();
+  }
+
+  public void clear() {
+    synchronized (list) {
+      list.clear();
+    }
+
+    notifyDataSetChanged();
   }
 
   /**
@@ -64,8 +94,9 @@ public abstract class BasePageAdapter<T extends View> extends PagerAdapter {
    */
   protected boolean contains(Object object) {
     synchronized (list) {
-      for (T t : list) {
-        if (t.equals(object)) {
+      Iterator<T> iterator = list.iterator();
+      while (iterator.hasNext()) {
+        if (iterator.next().equals(object)) {
           return true;
         }
       }
@@ -108,14 +139,6 @@ public abstract class BasePageAdapter<T extends View> extends PagerAdapter {
     notifyDataSetChanged();
   }
 
-  public void clear() {
-    synchronized (list) {
-      list.clear();
-    }
-
-    notifyDataSetChanged();
-  }
-
   public T get(int index) {
     synchronized (list) {
       return AdapterHelper.getListItem(list, index);
@@ -136,5 +159,11 @@ public abstract class BasePageAdapter<T extends View> extends PagerAdapter {
     }
 
     return -1;
+  }
+
+  private void debug(String message) {
+    if (DEBUG) {
+      Log.e(TAG, message);
+    }
   }
 }

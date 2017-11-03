@@ -41,6 +41,14 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
     notifyDataSetChanged();
   }
 
+  public void clear() {
+    synchronized (list) {
+      list.clear();
+    }
+
+    notifyDataSetChanged();
+  }
+
   public List<Fragment> getList() {
     return list;
   }
@@ -122,28 +130,31 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
     }
   }
 
-  @Override public Object instantiateItem(ViewGroup container, int position) {
-    Fragment fragment = (Fragment) super.instantiateItem(container, position);
-    if (DEBUG) {
-      Log.d(TAG, "instantiateItem, object : "
-          + fragment.getClass().getSimpleName()
-          + ", position : "
-          + position);
+  @Override public int getItemPosition(Object object) {
+    debug("getItemPosition, object: [" + object.hashCode() + "]");
+    int index = getIndex((Fragment) object);
+    if (index == -1) {
+      return POSITION_NONE; // return for create new instance
     }
 
-    set(position, fragment);
+    return index;
+  }
 
+  @Override public Object instantiateItem(ViewGroup container, int position) {
+    Fragment fragment = (Fragment) super.instantiateItem(container, position);
+    debug("instantiateItem, position : " + position + ", object : " + fragment.hashCode());
+    set(position, fragment);
     return fragment;
   }
 
   @Override public void destroyItem(ViewGroup container, int position, Object object) {
-    if (DEBUG) {
-      Log.d(TAG, "destroyItem, object : "
-          + object.getClass().getSimpleName()
-          + ", position : "
-          + position);
-    }
-
+    debug("destroyItem, position : " + position + ", object : " + object.hashCode());
     super.destroyItem(container, position, object);
+  }
+
+  private void debug(String message) {
+    if (DEBUG) {
+      Log.e(TAG, message);
+    }
   }
 }

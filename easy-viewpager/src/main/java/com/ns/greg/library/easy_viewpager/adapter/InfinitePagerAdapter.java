@@ -31,7 +31,6 @@ public abstract class InfinitePagerAdapter<T extends View> extends BasePageAdapt
     final int virtualPosition = position % getRealCount();
     View view = get(virtualPosition);
     container.addView(view);
-
     return view;
   }
 
