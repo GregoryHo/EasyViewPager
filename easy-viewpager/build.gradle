@@ -5,7 +5,7 @@ apply plugin: 'com.jfrog.bintray'
 def ext = rootProject.extensions.getByName("ext")
 
 // Library version
-version = '1.0.6'
+version = '1.0.7'
 android {
   compileSdkVersion ext["compileSdkVersion"]
   buildToolsVersion ext["buildToolsVersion"]
@@ -23,6 +23,7 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
+  buildToolsVersion '26.0.2'
 }
 
 // Home page url

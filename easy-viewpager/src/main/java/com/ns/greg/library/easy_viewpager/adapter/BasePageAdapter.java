@@ -49,18 +49,42 @@ public abstract class BasePageAdapter<T extends View> extends PagerAdapter {
     return list;
   }
 
-  public void updateList(List<T> view) {
+  /**
+   * Update list must be called on UI-thread
+   *
+   * @param views list of view
+   */
+  public void updateList(List<T> views) {
+    clear();
+    addAll(views);
+  }
+
+  /**
+   * Check list contains object or not
+   */
+  protected boolean contains(Object object) {
     synchronized (list) {
-      list.clear();
-      list.addAll(view);
+      for (T t : list) {
+        if (t.equals(object)) {
+          return true;
+        }
+      }
     }
 
-    notifyDataSetChanged();
+    return false;
   }
 
   public void add(T view) {
     synchronized (list) {
       list.add(view);
+    }
+
+    notifyDataSetChanged();
+  }
+
+  public void addAll(List<T> views) {
+    synchronized (list) {
+      list.addAll(views);
     }
 
     notifyDataSetChanged();
@@ -79,6 +103,14 @@ public abstract class BasePageAdapter<T extends View> extends PagerAdapter {
       if (AdapterHelper.checkIsLegalIndex(list, index)) {
         list.remove(index);
       }
+    }
+
+    notifyDataSetChanged();
+  }
+
+  public void clear() {
+    synchronized (list) {
+      list.clear();
     }
 
     notifyDataSetChanged();
@@ -104,21 +136,5 @@ public abstract class BasePageAdapter<T extends View> extends PagerAdapter {
     }
 
     return -1;
-  }
-
-  /**
-   * Check list if contains this object
-   */
-  protected boolean checkContains(Object object) {
-    synchronized (list) {
-      Iterator<T> iterator = list.iterator();
-      while (iterator.hasNext()) {
-        if (iterator.next().equals(object)) {
-          return true;
-        }
-      }
-    }
-
-    return false;
   }
 }
